@@ -7,7 +7,7 @@
 # For building with minimal manifest
 export ALLOW_MISSING_DEPENDENCIES=true
 
-FDEVICE="s5e8835"
+FDEVICE="a35x"
 
 fox_get_target_device() {
 local chkdev=$(echo "$BASH_SOURCE" | grep -w $FDEVICE)
