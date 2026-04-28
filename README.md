@@ -1,5 +1,7 @@
 # Android device tree for samsung SM-A356E (a35x)
 
+# This repository includes the fixes needed to compile the SHRP recovery as well
+
 # How to build
 ## Sync twrp-12.1
     repo init -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1; repo sync
