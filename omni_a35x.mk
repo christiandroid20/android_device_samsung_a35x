@@ -33,3 +33,5 @@ PRODUCT_PACKAGES += \
 
 # 🌐 Google client ID (optional, harmless)
 PRODUCT_GMS_CLIENTID_BASE := android-samsung
+
+SHRP_MAINTAINER := ChristyGaming18
