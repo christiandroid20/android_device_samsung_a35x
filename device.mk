@@ -22,6 +22,5 @@ PRODUCT_PACKAGES += \
     update_verifier
 
 PRODUCT_PACKAGES += \
-    libandroidicu \
     libion \
     libxml2
