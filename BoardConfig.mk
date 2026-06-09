@@ -38,8 +38,8 @@ TARGET_USES_64_BIT_BINDER := true
 # Display
 TW_THEME := portrait_hdpi
 TARGET_SCREEN_DENSITY := 390
-TARGET_SCREEN_HEIGHT := 2340
 TARGET_SCREEN_WIDTH := 1080
+TARGET_SCREEN_HEIGHT := 2340
 TW_MAX_BRIGHTNESS := 1000
 TW_DEFAULT_BRIGHTNESS := 500
 TW_FRAMERATE := 120
@@ -52,7 +52,7 @@ TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/Image
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilt/dtbo.img
 
-# Kernel args
+# Kernel
 BOARD_BOOT_HEADER_VERSION := 2
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive bootconfig buildtime_bootconfig=enable loop.max_part=7
@@ -111,7 +111,7 @@ TW_USE_FSCRYPT := true
 BOARD_USES_METADATA_PARTITION := true
 TW_FORCE_KEYMASTER_VER := true
 
-# TWRP general flags
+# TWRP flags
 TW_INCLUDE_REPACKTOOLS := true
 TW_INCLUDE_LPTOOLS := true
 TW_INCLUDE_LPDUMP := true
@@ -131,7 +131,7 @@ TW_INCLUDE_FASTBOOTD := true
 TW_USE_NEW_MINADBD := true
 TW_EXCLUDE_DEFAULT_USB_INIT := true
 
-# Samsung specific
+# Samsung
 TW_NO_REBOOT_BOOTLOADER := true
 TW_USE_SAMSUNG_HAPTICS := true
 TW_HAS_DOWNLOAD_MODE := true
@@ -154,19 +154,13 @@ TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 PRODUCT_ENFORCE_VINTF_MANIFEST := true
 TW_USE_LEGACY_BATTERY_SERVICES := true
 
-# USB
-TW_EXCLUDE_DEFAULT_USB_INIT := true
-
 # Version
 TW_DEVICE_VERSION := ChristyGaming18
+MAINTAINER := ChristyGaming18
 
 # ============================================================
 # RECOVERY SELECTOR
-# Exporta USE_RECOVERY antes de compilar:
-#   export USE_RECOVERY=SHRP   → Skyhawk Recovery
-#   export USE_RECOVERY=TWRP   → TWRP puro (sin flags extra)
-#   export USE_RECOVERY=PBRP   → PitchBlack Recovery
-#   export USE_RECOVERY=OFRP   → OrangeFox Recovery
+# export USE_RECOVERY=SHRP|TWRP|PBRP|OFRP antes de compilar
 # ============================================================
 
 ifeq ($(USE_RECOVERY),SHRP)
