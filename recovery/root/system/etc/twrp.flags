@@ -1,57 +1,36 @@
-# mount point    fstype    device                                    flags
+# ============================================================
+# Samsung A35x - A/B + Dynamic Partitions + FBE
+# ============================================================
 
-# Logical partitions - f2fs
-/system          f2fs      /dev/block/mapper/system                  flags=logical;first_stage_mount
-/system_dlkm     f2fs      /dev/block/mapper/system_dlkm             flags=logical;first_stage_mount
-/vendor          f2fs      /dev/block/mapper/vendor                  flags=logical;first_stage_mount
-/vendor_dlkm     f2fs      /dev/block/mapper/vendor_dlkm             flags=logical;first_stage_mount
-/product         f2fs      /dev/block/mapper/product                 flags=logical;first_stage_mount
-/odm             f2fs      /dev/block/mapper/odm                     flags=logical;first_stage_mount
+# ------------------------------------------------------------
+# BOOT / RECOVERY
+# ------------------------------------------------------------
+/dev/block/bootdevice/by-name/boot        /boot        emmc  defaults                          defaults
+/dev/block/bootdevice/by-name/recovery    /recovery    emmc  defaults                          defaults
 
-# Logical partitions - ext4
-/system          ext4      /dev/block/mapper/system                  flags=logical;first_stage_mount
-/system_dlkm     ext4      /dev/block/mapper/system_dlkm             flags=logical;first_stage_mount
-/vendor          ext4      /dev/block/mapper/vendor                  flags=logical;first_stage_mount
-/vendor_dlkm     ext4      /dev/block/mapper/vendor_dlkm             flags=logical;first_stage_mount
-/product         ext4      /dev/block/mapper/product                 flags=logical;first_stage_mount
-/odm             ext4      /dev/block/mapper/odm                     flags=logical;first_stage_mount
+# ------------------------------------------------------------
+# DYNAMIC PARTITIONS (SUPER LOGICAL)
+# IMPORTANT: MUST USE "logical" + "first_stage_mount"
+# ------------------------------------------------------------
+/dev/block/mapper/system      /system      ext4  ro,barrier=1     wait,logical,first_stage_mount
+/dev/block/mapper/system_ext  /system_ext  ext4  ro,barrier=1     wait,logical,first_stage_mount
+/dev/block/mapper/product     /product     ext4  ro,barrier=1     wait,logical,first_stage_mount
+/dev/block/mapper/vendor      /vendor      ext4  ro,barrier=1     wait,logical,first_stage_mount
+/dev/block/mapper/odm         /odm         ext4  ro,barrier=1     wait,logical,first_stage_mount
+/dev/block/mapper/vendor_dlkm /vendor_dlkm ext4  ro,barrier=1     wait,logical,first_stage_mount
 
-# Logical partitions - erofs
-/system          erofs     /dev/block/mapper/system                  flags=logical;first_stage_mount
-/system_dlkm     erofs     /dev/block/mapper/system_dlkm             flags=logical;first_stage_mount
-/vendor          erofs     /dev/block/mapper/vendor                  flags=logical;first_stage_mount
-/vendor_dlkm     erofs     /dev/block/mapper/vendor_dlkm             flags=logical;first_stage_mount
-/product         erofs     /dev/block/mapper/product                 flags=logical;first_stage_mount
-/odm             erofs     /dev/block/mapper/odm                     flags=logical;first_stage_mount
+# ------------------------------------------------------------
+# DATA (FBE ENCRYPTION FIX - CRITICAL)
+# ------------------------------------------------------------
+/dev/block/bootdevice/by-name/userdata    /data    f2fs  noatime,nosuid,nodev,discard,inlinecrypt  wait,check,formattable,quota,latemount,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt,metadata_encryption=aes-256-xts,encryptable=footer
 
-# System images (flasheables)
-/system_image    emmc      /dev/block/mapper/system                  flags=backup=0;flashimg;display="System Image"
-/vendor_image    emmc      /dev/block/mapper/vendor                  flags=backup=0;flashimg;display="Vendor Image"
-/product_image   emmc      /dev/block/mapper/product                 flags=backup=0;flashimg;display="Product Image"
-/odm_image       emmc      /dev/block/mapper/odm                     flags=backup=0;flashimg;display="ODM Image"
+# ------------------------------------------------------------
+# METADATA (CRITICAL FOR CRYPTO FOOTER)
+# ------------------------------------------------------------
+/dev/block/bootdevice/by-name/metadata     /metadata ext4  noatime,nosuid,nodev,discard  wait,formattable
 
-# Metadata (CRÍTICO para FBE decrypt)
-/metadata        ext4      /dev/block/bootdevice/by-name/metadata    flags=backup=0;wipeingui;display="Metadata"
-
-# Boot partitions
-/boot            emmc      /dev/block/bootdevice/by-name/boot        flags=backup=1;flashimg;display="Boot"
-/recovery        emmc      /dev/block/bootdevice/by-name/recovery    flags=backup=1;flashimg;display="Recovery"
-/dtbo            emmc      /dev/block/bootdevice/by-name/dtbo        flags=backup=1;flashimg;display="DTBO"
-/vbmeta          emmc      /dev/block/bootdevice/by-name/vbmeta      flags=backup=1;flashimg;display="VBMeta"
-
-# Data
-/data            f2fs      /dev/block/bootdevice/by-name/userdata    flags=length=-20480,latemount,wait,check,fileencryption=aes-256-xts:aes-256-cts:v2,keydirectory=/metadata/vold/metadata_encryption,quota,formattable,resize,fscrypt
-
-# Cache y EFS
-/cache           ext4      /dev/block/bootdevice/by-name/cache       flags=backup=1;display="Cache"
-/efs             ext4      /dev/block/bootdevice/by-name/efs         flags=backup=1;display="EFS"
-/sec_efs         ext4      /dev/block/bootdevice/by-name/sec_efs     flags=backup=1;display="Sec EFS"
-
-# Samsung extras
-/optics          ext4      /dev/block/bootdevice/by-name/optics      flags=wipeingui;display="Optics"
-/prism           ext4      /dev/block/bootdevice/by-name/prism       flags=wipeingui;display="Prism"
-/omr             ext4      /dev/block/bootdevice/by-name/omr         flags=wipeingui;display="OMR"
-
-# Removibles
-/external_sd     auto      /dev/block/mmcblk0p1   /dev/block/mmcblk0   flags=storage;wipeingui;removable
-/usb_otg         auto      /dev/block/sdf1        /dev/block/sdf        flags=storage;wipeingui;removable
+# ------------------------------------------------------------
+# EXTERNAL STORAGE
+# ------------------------------------------------------------
+/devices/platform/*usb*           /usb_otg      auto  defaults   voldmanaged=usb:auto
+/dev/block/mmcblk1               /external_sd   auto  defaults   voldmanaged=sdcard1:auto
