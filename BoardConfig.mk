@@ -147,3 +147,13 @@ TW_USE_NEW_MINADBD := true
 
 # Version/Maintainer
 TW_DEVICE_VERSION := SavedByLight Stable
+
+# Skyhawk Recovery - ONLY FOR SKYHAWK RECOVERY PROJECT BUILDING
+SHRP_DARK := true
+SHRP_DEVICE_CODE := a35x
+SHRP_FLASH := 1
+SHRP_MAINTAINER := ChristyGaming18
+
+# Version/Maintainer
+TW_DEVICE_VERSION := SavedByLight Stable
+MAINTAINER := ChristyGaming18
