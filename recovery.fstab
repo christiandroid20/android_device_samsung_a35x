@@ -1,65 +1,51 @@
 # =========================
 # SYSTEM PARTITIONS (dynamic / erofs)
 # =========================
-
 /system          /dev/block/mapper/system          erofs  ro,barrier=1,wait
 /system_root     /dev/block/mapper/system          erofs  ro,barrier=1,wait
-
 /vendor          /dev/block/mapper/vendor          erofs  ro,barrier=1,wait
 /product         /dev/block/mapper/product         erofs  ro,barrier=1,wait
-/odm             /dev/block/mapper/odm             erofs  ro,barrier=1,wait
-/system_ext      /dev/block/mapper/system_ext      erofs  ro,barrier=1,wait
-
-/vendor_dlkm     /dev/block/mapper/vendor_dlkm     erofs  ro,barrier=1,wait
-/system_dlkm     /dev/block/mapper/system_dlkm     erofs  ro,barrier=1,wait
-
+/odm             /dev/block/mapper/odm              erofs  ro,barrier=1,wait
+/system_ext      /dev/block/mapper/system_ext       erofs  ro,barrier=1,wait
+/vendor_dlkm     /dev/block/mapper/vendor_dlkm      erofs  ro,barrier=1,wait
+/system_dlkm     /dev/block/mapper/system_dlkm      erofs  ro,barrier=1,wait
 
 # =========================
 # BOOT PARTITIONS
 # =========================
-
 /boot            /dev/block/sda15  emmc  defaults  defaults
 /init_boot       /dev/block/sda16  emmc  defaults  defaults
 /vendor_boot     /dev/block/sda17  emmc  defaults  defaults
 /dtbo            /dev/block/sda13  emmc  defaults  defaults
 /vbmeta          /dev/block/sda26  emmc  defaults  defaults
 /vbmeta_system   /dev/block/sda27  emmc  defaults  defaults
-
+/recovery        /dev/block/sda18  emmc  defaults  defaults
 
 # =========================
 # DATA (CRITICAL FIX)
 # =========================
-
-/data  /dev/block/sda37  f2fs  noatime,nosuid,nodev,discard,wait,check,formattable,fileencryption=aes-256-xts:aes-256-cts:v2,fscrypt=footer,metadata_encryption=aes-256-xts,keydirectory=/metadata/vold/metadata_encryption,quota
-
+/data  /dev/block/sda37  f2fs  noatime,nosuid,nodev,discard,wait,check,formattable,fileencryption=aes-256-xts:aes-256-cts:v2,metadata_encryption=aes-256-xts,keydirectory=/metadata/vold/metadata_encryption,quota
 
 # =========================
 # CACHE / MISC
 # =========================
-
 /cache     /dev/block/sda35  ext4  discard,wait,formattable
 /metadata  /dev/block/sda28  ext4  discard,wait,formattable
 /misc      /dev/block/sda23  emmc  defaults
 
-
 # =========================
 # EFS / MODEM (SAMSUNG CRITICAL)
 # =========================
-
 /efs       /dev/block/sda1   ext4  noatime,nosuid,nodev,barrier=1,wait
 /sec_efs   /dev/block/sda2   ext4  noatime,nosuid,nodev,barrier=1,wait
 /modem     /dev/block/sda19  emmc  defaults
 
-
 # =========================
 # EXTERNAL STORAGE
 # =========================
-
 /external_sd  /dev/block/mmcblk0p1  vfat  nosuid,nodev,dirsync,noatime  wait
-
 
 # =========================
 # USB OTG
 # =========================
-
 /usb-otg  auto  auto  defaults
